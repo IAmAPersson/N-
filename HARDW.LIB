@@ -1,0 +1,79 @@
+static class HardW
+ public const Up = 1
+ public const Down = 2
+ public const Left = 4
+ public const Right = 8
+ public const A = 16
+ public const B = 32
+ public const X = 64
+ public const Y = 128
+ public const L = 256
+ public const R = 512
+ public const ZR = 2048
+ public const ZL = 4096
+ def public void InitMic ()
+  xon MIC
+ end
+ def public void InitGyro ()
+  xon MOTION
+ end
+ def public void InitCirclePro ()
+  xon EXPAD
+ end
+ def public int ButtonDown ()
+  return button(0)
+ end
+ def public int ButtonPressed ()
+  return button(2)
+ end
+ def public int ButtonReleased ()
+  return button(3)
+ end
+ def public void Circle () ~> int x, int y
+  stick out x, y
+ end
+ def public void CirclePro () ~> int x, int y
+  stickex out x, y
+ end
+ def public void GyroForce () ~> int x, int y, int z
+  accel ~> x, y, z
+ end
+ def public void GyroAngVel () ~> int x, int y, int z
+  gyrov ~> x, y, z
+ end
+ def public void GyroAngle () ~> int x, int y, int z
+  gyroa ~> x, y, z
+ end
+ def public void Update ()
+  gyrosync
+ end
+ def public void TouchLoc () ~> int x, int y
+  int t
+  touch ~> t, x, y
+ end
+ def public int TouchTime ()
+  int t, x, y
+  touch ~> t, x, y
+  return t
+ end
+ def public void MicStart (int rate, int bits, int time)
+  MICSTART  rate, bits, time
+ end
+ def public void MicStop ()
+  MICSTOP
+ end
+ def public int MicData (int pos)
+  return MICDATA(pos)
+ end
+ def public int Mic (int pos, int num)
+  int[] temp[MICSIZE]
+  MICSAVE pos, num, temp
+  return temp
+ end
+ def public int MicSize ()
+  return MICSIZE
+ end
+ def public int MicPos ()
+  return MICPOS
+ end
+end static

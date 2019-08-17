@@ -1,0 +1,16 @@
+static class Resource
+ def public void Add(string path)
+  load "PRG2:"+path
+  use 1
+ end
+ def public void Run()
+  exec 1
+ end
+ def public void GoSub(string path)
+  gosub "2:"+path
+ end
+ def public void Remove()
+  prgedit 1
+  prgdel -1
+ end
+end static

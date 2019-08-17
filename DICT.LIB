@@ -1,0 +1,88 @@
+class Dict
+ def public int GetCount(string self)
+  return len(self)
+ end
+ def public string GetKeyType(string self)
+  foreach (string i in self)
+   i = remspaces$(remendspaces$(split(i, ",")[0]))
+   if (str(val(i)) != i)
+    return "string"
+   elif (floor(val(i)) != val(i))
+    return "float"
+   end
+  end
+  return "int"
+ end
+ def public string GetValueType(string self)
+  foreach (string i in self)
+   i = remspaces$(remendspaces$(split(i, ",")[1]))
+   if (str(val(i)) != i)
+    return "string"
+   elif (floor(val(i)) != val(i))
+    return "float"
+   end
+  end
+  return "int"
+ end
+ def public int ValueOf(int value_, string self)
+  string key, value
+  for (int i = 0; i < len(self); i++)
+   key = remspaces$(remendspaces$(split(self[i], ",")[0]))
+   value = remspaces$(remendspaces$(split(self[i], ",")[1]))
+   if (key == str(value_) && Dict_GetKeyType$(self) == typeof(value_))
+    if (Dict_GetValueType$(self)=="string")
+     return value
+    else
+     return val(value)
+    end
+   end
+  end
+  Print "Couldn't find key "+str(value_)
+  Stop
+ end
+end class
+static class Dict
+ def public void RemovePair(object name, string key)
+  if (!isref(name))
+   Print "Expected dict name to be by reference. Try"
+   Print "enclosing the first parameter in [[ and ]]."
+   Stop
+  end
+  string[] self[0]
+  self=get(name)
+  string setval
+  foreach (string i in self)
+   if (remspaces$(remendspaces$(split(i, ",")[0])) != key)
+    setval += { i }
+   end
+  end
+  set name, setval
+ end
+ def public void Clear(object name)
+  if (!isref(name))
+   Print "Expected dict name to be by reference. Try"
+   Print "enclosing the first parameter in [[ and ]]."
+   Stop
+  end
+  set name, { "" }
+ end
+ def public void Append(object name, string pair)
+  if (!isref(name))
+   Print "Expected dict name to be by reference. Try"
+   Print "enclosing the first parameter in [[ and ]]."
+   Stop
+  end
+  if (len(split(get(name)[0],","))==1)
+   set name, pair
+   return
+  end
+  object temp__ = pair
+  string setval
+  foreach (string i in get(name))
+   setval += { i }
+  end
+  setval += { temp__[0] }
+  set name, setval
+  delete temp__
+ end
+end static

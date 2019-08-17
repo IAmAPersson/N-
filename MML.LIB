@@ -1,0 +1,37 @@
+class MML
+ def public void Play (string self)
+  bgmplay self
+ end
+ def public int Check (int track, string self)
+  bgmchk(track)
+ end
+ def public void Clear (int track, string self)
+  bgmclear track
+ end
+ def public void PlayTrack (int track, int tune, int volume, string self)
+  bgmplay track, tune, volume
+ end
+ def public void Assign (int tune, string self)
+  bgmset tune+128, self
+ end
+ def public void Stop (int track, int time, string self)
+  bgmstop track, time
+ end
+ def public void Volume (int track, int vol, string self)
+  bgmvol track, vol
+ end
+ def public void set (object obj, string new)
+  if (typeof(new)!="string")
+   print "Expected MML string; received numeric value."
+   stop
+  end
+  assign obj, new
+ end
+ def public void init (string new, object obj, string self)
+  if (typeof(new)!="string"||new==0)
+   print "Expected MML string; received numeric value."
+   stop
+  end
+  assign obj, new
+ end
+end class

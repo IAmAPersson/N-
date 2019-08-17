@@ -1,0 +1,96 @@
+static class Graphics
+ public int Page = 0, DispPage = 0, Color = RGB(255, 255, 255)
+ def private void setpage ()
+  gpage DispPage, Page
+  gcolor this.Color
+ end
+ def public void Clip (int mode, int x1, int y1, int x2, int y2)
+  setpage
+  gclip mode, x1, y1, x2, y2
+ end
+ def public void Clear ()
+  setpage
+  gcls
+ end
+ def public void ClearAll ()
+  for (int i = 0; i < 4; i++)
+   gpage this.DispPage, i
+   gcls
+  end
+  setpage
+ end
+ def public void Copy (int x1, int y1, int x2, int y2, int toX, int toY, int transp)
+  gcopy Page, x1, y1, x2, y2, toX, toY, transp
+ end
+ 'gload
+ def public void Fill (int x, int y)
+  setpage
+  gpaint x, y, Color
+ end
+ def public int RGB (int R, int G, int B)
+  [SB]return RGB(R%,G%,B%)
+ end
+ def public void ZOrder (int z)
+  setpage
+  gprio z
+ end
+ def public void String (int x, int y, string s, int sclx, int scly)
+  setpage
+  gputchr x, y, s, sclx, scly, Color
+ end
+ 'gsave
+ def public int GetRGB (int x, int y)
+  setpage
+  return gspoit (x, y)
+ end
+ def public void Sync ()
+  vsync 1
+ end
+ def public void Update ()
+  setpage
+ end
+end static
+class Line
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gline val(self[0]),val(self[1]),val(self[2]),val(self[3])
+ end
+end class
+class Triangle
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gline val(self[0]),val(self[1]),val(self[2]),val(self[3])
+  gline val(self[0]),val(self[1]),val(self[4]),val(self[5])
+  gline val(self[2]),val(self[3]),val(self[4]),val(self[5])
+ end
+end class
+class SolidTriangle
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gtri val(self[0]),val(self[1]),val(self[2]),val(self[3]),val(self[4]),val(self[5])
+ end
+end class
+class Box
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gbox val(self[0]),val(self[1]),val(self[2]),val(self[3])
+ end
+end class
+class SolidBox
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gfill val(self[0]),val(self[1]),val(self[2]),val(self[3])
+ end
+end class
+class Pixel
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gpset val(self[0]),val(self[1])
+ end
+end class
+class Circle
+ def public void Draw (string self)
+  call("Graphics_"+{""}+"setpage_")
+  gcircle val(self[0]),val(self[1]),val(self[2])
+ end
+end class

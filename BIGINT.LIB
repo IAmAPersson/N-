@@ -1,0 +1,206 @@
+class BigInt
+ def public void init(string name, string self)
+  assign name,"0"
+ end
+ def public void set(string valu, string name, string self)
+  if (typeof(valu)=="int")
+   assign name,str(valu)
+  else
+   for (int i=0; i<len(valu); i++)
+    if (valu[i]!=str(val(valu[i])))
+     print "Cannot parse "+chr(34)+valu+chr(34)+" as BigInt (contains non-numeric characters)."
+    end
+   end
+   while (valu[0]=="0" && len(valu)>1)
+    valu=right(valu,len(valu)-1)
+   end
+   assign name,valu
+  end
+ end
+ def public int GreaterThan(string b, string a)
+  if (len(a)>len(b))
+   return true
+  elif (len(a)<len(b))
+   return false
+  end
+  for (int i=0; i<len(a); i++)
+   if (val(a[i])>val(b[i])
+    return true
+   elif (val(a[i])<val(b[i])
+    return false
+   end
+  end
+  return false
+ end
+ def public int LessThan(string b, string a)
+  if (len(a)<len(b))
+   return true
+  elif (len(a)>len(b))
+   return false
+  end
+  for (int i=0; i<len(a); i++)
+   if (val(a[i])<val(b[i])
+    return true
+   elif (val(a[i])>val(b[i])
+    return false
+   end
+  end
+  return false
+ end
+ def public int Equals(string b, string a)
+  if (a==b)
+   return true
+  else
+   return false
+  end
+ end
+end class
+
+static class BigInt
+ def private string RemZeros(string a)
+  while (a[0]=="0" && len(a)>1)
+   a=right(a,len(a)-1)
+  end
+  return a
+ end
+ def private string AddZeros(string a, int amt)
+  for (int i=0; i<amt; i++)
+   a="0"+a
+  end
+  return a
+ end
+ def public string Add(string a, string b)
+  if (len(a)>len(b))
+   b=AddZeros(b,len(a)-len(b))
+  end
+  if (len(a)<len(b))
+   a=AddZeros(a,len(b)-len(a))
+  end
+  string c,sum
+  int carry
+  for (int i=len(a)-1; i>=0; i--)
+   sum=str(val(a[i])+val(b[i])+carry)
+   carry=0
+   if (len(sum)==2)
+    sum=sum[1]
+    carry=1
+   end
+   c=sum+c
+  end
+  if (carry)
+   c="1"+c
+  end
+  c=RemZeros(c)
+  return c
+ end
+ def public string Subtract(string a, string b)
+  a=RemZeros(a)
+  b=RemZeros(b)
+  if (len(a)>len(b))
+   b=AddZeros(b,len(a)-len(b))
+  end
+  if (len(a)<len(b))
+   a=AddZeros(a,len(b)-len(a))
+  end
+  if (a==b)
+   return "0"
+  end
+  object __temp <- BigInt
+  __temp=a
+  if (__temp.LessThan(b))
+   delete __temp
+   print "Cannot subtract "+b+" from "+a
+   stop
+  end
+  delete __temp
+  int[] answ[len(a)]
+  string ans
+  for (int i=0; i<len(a); i++)
+   answ[i]=val(a[i])-val(b[i])
+   if (i>0 && answ[i]<0)
+    answ[i]+=10
+    answ[i-1]--
+    int ti=i-1
+    while (answ[ti]<0)
+     answ[ti]+=10
+     answ[ti-1]--
+     ti--
+    end
+   end
+  end
+  for(i=0; i<len(a); i++)
+   ans+=str(answ[i])
+  end
+  return RemZeros(ans)
+ end
+ def public string Multiply(string a, string b)
+  string[] res[len(b)]
+  int carry, temp
+  for (int j=len(b)-1; j>=0; j--)
+   carry=0
+   for (int i=len(a)-1; i>=0; i--)
+    temp=val(a[i])*val(b[j])+carry
+    carry=0
+    if (len(str(temp))>1)
+     carry=temp div 10
+    end
+    temp=val(right(str(temp),1))
+    res[j]=str(temp)+res[j]
+   end
+   res[j]=str(carry)+res[j]+("0"*(len(b)-j-1))
+  end
+  string ans
+  for (i=0; i<len(res); i++)
+   ans=Add(ans,res[i])
+  end
+  ans=RemZeros(ans)
+  return ans
+ end
+ def private int GreaterThn(string a, string b)
+  if (len(a)>len(b))
+   return true
+  elif (len(a)<len(b))
+   return false
+  end
+  for (int i=0; i<len(a); i++)
+   if (val(a[i])>val(b[i])
+    return true
+   elif (val(a[i])<val(b[i])
+    return false
+   end
+  end
+  return false
+ end
+ def private string Divd(string a, string b)
+  string ans = "0"
+  a=RemZeros(a)
+  b=RemZeros(b)
+  while (GreaterThn(a, b) && a!=b)
+   ans=Add(ans, "1")
+   a=Subtract(a, b)
+  end
+  if (a==b)
+   ans=Add(ans, "1")
+  end
+  return ans
+ end
+ def public string Divide(string a, string b)
+  string ans, temp, t
+  if (len(a)-len(b)<2)
+   return Divd(a, b)
+  end
+  temp=mid(a, 0, len(b)+1)
+  for (int i=0; i<len(a)-len(b); i++)
+   t=Divd(temp, b)
+   ans+=t
+   temp=Subtract(temp, Multiply(b, t))
+   if (i<len(a)-len(b)-1)
+    temp+=a[i+len(b)+1]
+   end
+  end
+  return ans
+ end
+ def public string Mod(string a, string b)
+  return Subtract(a, Multiply(Divide(a, b), b))
+ end
+end static

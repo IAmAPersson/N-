@@ -1,0 +1,12 @@
+static class App
+ public const IsRunning = true
+ def public void Sleep(int time)
+  wait time*60/1000
+ end
+ def public void End()
+  stop
+ end
+ def public void Trace()
+  backtrace
+ end
+end static

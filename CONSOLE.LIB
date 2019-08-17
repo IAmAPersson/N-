@@ -1,0 +1,47 @@
+static class Console
+ public int Color = 15, BackColor, Rotation, Hflip, Vflip
+ def private void setcolor ()
+  attr Vflip*8+Hflip*4+floor((Rotation mod 360)/90)
+  color Color, BackColor
+ end
+ def public void Println (string s)
+  setcolor
+  [SB]PRINT S$
+ end
+ def public void Print (string s)
+  setcolor
+  [SB]PRINT S$;
+ end
+ def public string Readln ()
+  setcolor
+  string s
+  [SB]LINPUT S$
+  return s
+ end
+ def public string ReadKey ()
+  string s
+  dowhile (s == "")
+   s = INKEY$()
+  end
+  Print s
+  return s
+ end
+ def public string GetKey ()
+  [SB]RETURN INKEY$()
+ end
+ def public void Clear ()
+  [SB]CLS
+ end
+ def public void Locate (int x, int y, int z)
+  [SB]LOCATE X%,Y%,Z%
+ end
+ def public void Scroll (int x, int y)
+  [SB]SCROLL X%,Y%
+ end
+ def public int GetChar (int x, int y)
+  [SB]RETURN CHKCHR(X%,Y%)
+ end
+ def public void Update ()
+  setcolor
+ end
+end static
